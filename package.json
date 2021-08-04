@@ -4,7 +4,8 @@
   "scripts": {
     "bootstrap": "lerna bootstrap",
     "build": "lerna run build",
-    "release": "lerna publish"
+    "release": "lerna publish",
+    "release:force": "lerna publish from-package --yes"
   },
   "devDependencies": {
     "lerna": "^4.0.0"
