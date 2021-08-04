@@ -1,20 +1,30 @@
-# cra-template-fregata-react-lib
+# crl-template-default
 
-基于 cra-template-typescript
+base on cra-template-typescript, but for `create-rclib`
 
-To use this template, add `--template fregata-react-lib` when creating a new app.
+To use this template, add `--template custom --template-path crl-template-default ` when creating a new app.
 
-使用:
+### Features
+
+- rollup, build es|lib
+- less
+- typessript
+- antd
+- babel-plugin-import
+- code splitting
+
+### useage
 
 ```sh
-npx create-rclib my-app --template fregata-react-lib
+
+npx create-rclib my-app --template custom --template-path crl-template-default
 
 # or
 
-yarn create react-app my-app --template fregata-react-lib
+yarn create rclib my-app --template custom --template-path crl-template-default
+
+
+# or template-path type `crl-template-default`
+
+yarn create rclib
 ```
-
-For more information, please refer to:
-
-- [Getting Started](https://create-react-app.dev/docs/getting-started) – How to create a new app.
-- [User Guide](https://create-react-app.dev) – How to develop apps bootstrapped with Create React App.
