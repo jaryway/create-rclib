@@ -103,6 +103,7 @@ module.exports = async opts => {
         name: 'example',
         message: 'Intall example',
         choices: ['Yes', 'No'],
+        when: ({ template }) => template !== 'custom',
         default: opts.example
       }
     ])

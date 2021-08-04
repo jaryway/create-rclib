@@ -40,17 +40,19 @@ module.exports = async info => {
   const rometeTemplate =
     template === 'custom' && templateName.startsWith(templatePattern)
 
+  console.log(rometeTemplate, 'rometeTemplate')
+
   await mkdirp(dest)
 
   if (rometeTemplate) {
-    module.exports.setupFromRemoteTempalte({
+    await module.exports.setupFromRemoteTempalte({
       dest,
       manager,
       name,
       templatePath
     })
   } else {
-    module.exports.setupFromLocalTempalte({
+    await module.exports.setupFromLocalTempalte({
       dest,
       info,
       template,
@@ -249,7 +251,9 @@ module.exports.setupFromRemoteTempalte = async opts => {
   }
 
   const templateRootDir = path.dirname(
-    require.resolve(path.join(templateName, 'package.json'))
+    require.resolve(path.join(templateName, 'package.json'), {
+      paths: [appPath]
+    })
   )
   const templateJsonPath = path.join(templateRootDir, 'template.json')
   let templateJson = {}
@@ -365,8 +369,7 @@ module.exports.setupFromRemoteTempalte = async opts => {
 
 module.exports.setupFromLocalTempalte = async opts => {
   const { dest, info, template, manager, templatePath } = opts
-  // const appPath = path.resolve(dest)
-  // copy local template to appPath
+
   const source =
     template === 'custom'
       ? path.join(process.cwd(), templatePath)

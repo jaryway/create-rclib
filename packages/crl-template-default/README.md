@@ -7,7 +7,7 @@ To use this template, add `--template fregata-react-lib` when creating a new app
 使用:
 
 ```sh
-npx create-react-app my-app --template fregata-react-lib
+npx create-rclib my-app --template fregata-react-lib
 
 # or
 
