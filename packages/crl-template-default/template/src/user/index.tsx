@@ -1,14 +1,14 @@
 import React, { FC } from "react";
-import { Button, Form, Input } from "antd";
+import { Button, Form, Input as AntInput } from "antd";
 
-interface TestComponentProps {}
+interface UserProps {}
 
-const TestComponent: FC<TestComponentProps> = () => {
+const User: FC<UserProps> = () => {
   return (
     <div>
       <Form>
         <Form.Item>
-          <Input />
+          <AntInput />
         </Form.Item>
         <Form.Item>
           <Button>Save</Button>
@@ -18,4 +18,4 @@ const TestComponent: FC<TestComponentProps> = () => {
   );
 };
 
-export default TestComponent;
+export default User;
