@@ -1,8 +1,8 @@
 {
-  "name": "create-reactlib",
+  "name": "create-rclib",
   "version": "0.0.1",
   "description": "CLI for easily bootstrapping modern react libraries",
-  "repository": "jaryway/create-reactlib",
+  "repository": "jaryway/create-rclib",
   "author": "jaryway",
   "main": "index.js",
   "license": "MIT",
@@ -10,7 +10,7 @@
     "node": ">=10"
   },
   "bin": {
-    "create-reactlib": "index.js"
+    "create-rclib": "index.js"
   },
   "scripts": {
     "test": "ava -v && standard *.js lib/*.js"
@@ -62,5 +62,6 @@
       "index.test.js",
       "lib/**/*.test.js"
     ]
-  }
+  },
+  "gitHead": "ffa809bc5b07ef9724de21cdb080d270ff930ddf"
 }
