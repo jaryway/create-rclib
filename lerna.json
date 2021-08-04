@@ -8,7 +8,7 @@
     },
 
     "publish": {
-      "allowBranch": "master",
+      "allowBranch": "main",
       "ignoreChanges": ["*.md"]
     }
   }
