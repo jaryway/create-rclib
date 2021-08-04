@@ -15,6 +15,9 @@
   "scripts": {
     "test": "ava -v && standard *.js lib/*.js"
   },
+  "publishConfig": {
+    "access": "public"
+  },
   "keywords": [
     "react",
     "preact",
