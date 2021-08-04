@@ -597,11 +597,6 @@ cp-file@^6.0.0:
     pify "^3.0.0"
     safe-buffer "^5.0.1"
 
-cra-template-fregata-react-lib@0.0.3:
-  version "0.0.3"
-  resolved "http://192.10.169.216:4873/cra-template-fregata-react-lib/-/cra-template-fregata-react-lib-0.0.3.tgz#cb05dcaf573a994b0d27e98196a4ee0a153c076b"
-  integrity sha1-ywXcr1c6mUsNJ+mBlqTuChU8B2s=
-
 cross-spawn@^6.0.5:
   version "6.0.5"
   resolved "https://registry.yarnpkg.com/cross-spawn/-/cross-spawn-6.0.5.tgz#4a5ec7c64dfae22c3a14124dbacdee846d80cbc4"
