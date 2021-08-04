@@ -1,0 +1,42 @@
+{
+  "package": {
+    "main": "lib",
+    "module": "es",
+    "author": "jaryway",
+    "license": "ISC",
+    "scripts": {
+      "build": "rollup -c"
+    },
+    "dependencies": {
+      "@babel/runtime": "^7.14.5"
+    },
+    "devDependencies": {
+      "@babel/core": "^7.14.8",
+      "@babel/plugin-transform-runtime": "^7.14.5",
+      "@rollup/plugin-babel": "^5.3.0",
+      "@rollup/plugin-commonjs": "^20.0.0",
+      "@rollup/plugin-node-resolve": "^13.0.4",
+      "@types/react": "^17.0.15",
+      "antd": "^4.16.9",
+      "babel-plugin-import": "^1.13.3",
+      "react": "^17.0.2",
+      "react-dom": "^17.0.2",
+      "rollup": "^2.55.1",
+      "rollup-plugin-peer-deps-external": "^2.2.4",
+      "rollup-plugin-postcss": "^4.0.0",
+      "rollup-plugin-typescript2": "^0.30.0",
+      "typescript": "^3.8.3",
+      "autoprefixer": "^10.2.5",
+      "less": "^3.13.1",
+      "less-plugin-npm-import": "^2.1.0",
+      "postcss": "^8.3.6",
+      "rucksack-css": "^1.0.2"
+    },
+    "peerDependencies": {
+      "@babel/runtime": "^7.14.5",
+      "antd": ">=3",
+      "react": ">=16.8.0",
+      "react-dom": ">=16.8.0"
+    }
+  }
+}
