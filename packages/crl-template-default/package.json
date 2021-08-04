@@ -3,14 +3,14 @@
   "version": "0.0.1",
   "keywords": [
     "react",
-    "create-reactlib",
+    "create-rclib",
     "template",
     "typescript"
   ],
   "description": "The base TypeScript template for Create React Lib.",
   "repository": {
     "type": "git",
-    "url": "https://github.com/jaryway/create-reactlib.git",
+    "url": "https://github.com/jaryway/create-rclib.git",
     "directory": "packages/crl-template-default"
   },
   "license": "MIT",
@@ -18,7 +18,7 @@
     "node": ">=10"
   },
   "bugs": {
-    "url": "https://github.com/jaryway/create-reactlib/issues"
+    "url": "https://github.com/jaryway/create-rclib/issues"
   },
   "publishConfig": {
     "access": "public"

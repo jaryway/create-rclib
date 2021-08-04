@@ -1,4 +1,4 @@
-# create-reactlib
+# create-rclib
 
 > Base on [create-react-library](https://github.com/transitive-bullshit/create-react-library) cli,but support remote template like [create-react-app](https://github.com/facebookincubator/create-react-app) template. Template repository like create-react-app template, starts with `crl-template`
 
@@ -25,13 +25,13 @@
 This package requires `node >= 10`.
 
 ```bash
-npm install -g create-reactlib
+npm install -g create-rclib
 ```
 
 ## Usage with npx
 
 ```bash
-npx create-reactlib
+npx create-rclib
 ```
 
 _([npx](https://medium.com/@maybekatz/introducing-npx-an-npm-package-runner-55f7d4bd282b) comes with npm 5.2+ and higher, see [instructions for older npm versions](https://gist.github.com/gaearon/4064d3c23a77c74a3614c498a8bb1c5f))_
@@ -39,7 +39,7 @@ _([npx](https://medium.com/@maybekatz/introducing-npx-an-npm-package-runner-55f7
 ## Creating a New Module
 
 ```bash
-create-reactlib
+create-rclib
 ```
 
 Answer some basic prompts about your module, and then the CLI will perform the following steps:
