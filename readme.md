@@ -1,6 +1,6 @@
 # create-reactlib
 
-> Base on create-react-library cli,but support remote template like create-react-app template. Template repository like create-react-app template, starts with `crl-template`
+> Base on [create-react-library](https://github.com/transitive-bullshit/create-react-library) cli,but support remote template like [create-react-app](https://github.com/facebookincubator/create-react-app) template. Template repository like create-react-app template, starts with `crl-template`
 
 
 ## Features
