@@ -49,7 +49,8 @@ module.exports = async info => {
       dest,
       manager,
       name,
-      templatePath
+      templatePath,
+      info
     })
   } else {
     await module.exports.setupFromLocalTempalte({
@@ -113,7 +114,7 @@ module.exports.initPackageManagerRoot = async opts => {
   ]
 
   return pEachSeries(commands, async ({ cmd, args, cwd }) => {
-    return await execa(cmd, args, { cwd })
+    return execa(cmd, args, { cwd })
   })
 }
 
@@ -130,93 +131,18 @@ module.exports.initPackageManagerExample = async opts => {
   ]
 
   return pEachSeries(commands, async ({ cmd, args, cwd }) => {
-    return await execa(cmd, args, { cwd })
+    return execa(cmd, args, { cwd })
   })
-}
-
-module.exports.initGitRepo = async opts => {
-  const { dest } = opts
-
-  const gitignoreExists = fs.existsSync(path.join(dest, '.gitignore'))
-  if (gitignoreExists) {
-    // Append if there's already a `.gitignore` file there
-    const data = fs.readFileSync(path.join(dest, 'gitignore'))
-    fs.appendFileSync(path.join(dest, '.gitignore'), data)
-    fs.unlinkSync(path.join(dest, 'gitignore'))
-  } else {
-    const gitignoreExists = fs.existsSync(path.join(dest, 'gitignore'))
-    if (gitignoreExists) {
-      // Rename gitignore after the fact to prevent npm from renaming it to .npmignore
-      // See: https://github.com/npm/npm/issues/1862
-      fs.moveSync(
-        path.join(dest, 'gitignore'),
-        path.join(dest, '.gitignore'),
-        []
-      )
-    } else {
-      const gitIgnorePath = path.join(dest, '.gitignore')
-      await fs.writeFileSync(
-        gitIgnorePath,
-        `
-      # See https://help.github.com/ignore-files/ for more about ignoring files.
-      # dependencies
-      node_modules
-      # builds
-      build
-      dist
-      .rpt2_cache
-      # misc
-      .DS_Store
-      .env
-      .env.local
-      .env.development.local
-      .env.test.local
-      .env.production.local
-      npm-debug.log*
-      yarn-debug.log*
-      yarn-error.log*
-      `,
-        'utf8'
-      )
-    }
-  }
-
-  const commands = [
-    {
-      cmd: 'git',
-      args: ['init'],
-      cwd: dest
-    },
-    {
-      cmd: 'git',
-      args: ['add', '.'],
-      cwd: dest
-    },
-    {
-      cmd: 'git',
-      args: ['commit', '-m', `init ${pkg.name}@${pkg.version}`],
-      cwd: dest
-    }
-  ]
-
-  return pEachSeries(commands, async ({ cmd, args, cwd }) => {
-    console.log('commond', cmd, args, cwd)
-    return await execa(cmd, args, { cwd })
-  })
-    .then(res => {
-      console.log('res', res)
-    })
-    .catch(ex => {
-      console.error(`Initializing git repo failed`, ex)
-    })
 }
 
 module.exports.setupFromRemoteTempalte = async opts => {
-  const { dest, manager, name, templatePath } = opts
+  const { dest, manager, name, templatePath, info } = opts
   const command = manager
   const useYarn = manager === 'yarn'
   const remove = useYarn ? 'remove' : 'uninstall'
-  const args = useYarn ? ['add'] : ['install', '--no-audit', '--save']
+  const prod = useYarn ? [] : ['--save']
+  const dev = useYarn ? ['--dev'] : ['--save-dev']
+  const args = useYarn ? ['add'] : ['install', '--no-audit']
   const templateName = templatePath
 
   // 01.mkdir dest
@@ -238,7 +164,11 @@ module.exports.setupFromRemoteTempalte = async opts => {
   const packageJson = {
     name: name,
     version: '0.1.0',
-    private: true
+    private: true,
+    license: info.license,
+    author: info.author,
+    description: info.desc,
+    repository: info.repo
   }
 
   fs.writeFileSync(
@@ -249,7 +179,9 @@ module.exports.setupFromRemoteTempalte = async opts => {
   // 04.install crl-template package
   console.log()
   console.log(`Installing template package using ${command}...`)
-  const proc = spawn.sync(command, args.concat(templateName), {
+
+  const temp = path.resolve(__dirname, '../../', templateName)
+  const proc = spawn.sync(command, args.concat(prod, temp), {
     stdio: 'inherit'
   })
   if (proc.status !== 0) {
@@ -302,7 +234,7 @@ module.exports.setupFromRemoteTempalte = async opts => {
   ]
 
   // Keys from templatePackage that will be merged with appPackage
-  const templatePackageToMerge = ['dependencies', 'scripts']
+  const templatePackageToMerge = ['dependencies', 'devDependencies', 'scripts']
 
   // Keys from templatePackage that will be added to appPackage,
   // replacing any existing entries.
@@ -324,8 +256,7 @@ module.exports.setupFromRemoteTempalte = async opts => {
 
   // Install additional template dependencies, if present.
   const dependenciesToInstall = Object.entries({
-    ...templatePackage.dependencies,
-    ...templatePackage.devDependencies
+    ...templatePackage.dependencies
   }).map(([dependency, version]) => {
     return `${dependency}@${version}`
   })
@@ -336,14 +267,37 @@ module.exports.setupFromRemoteTempalte = async opts => {
     console.log(`Installing template dependencies using ${command}...`)
     console.log()
 
-    // const proc1 = spawn.sync(command, args.concat(dependenciesToInstall), {
-    //   stdio: 'inherit'
-    // })
+    const proc = spawn.sync(command, args.concat(prod, dependenciesToInstall), {
+      stdio: 'inherit'
+    })
 
-    // if (proc1.status !== 0) {
-    //   console.error(`\`${command} ${args.join(' ')}\` failed`)
-    //   process.exit(1)
-    // }
+    if (proc.status !== 0) {
+      console.error(`\`${command} ${args.join(' ')}\` failed`)
+      process.exit(1)
+    }
+  }
+
+  const devDependenciesToInstall = Object.entries({
+    ...templatePackage.devDependencies
+  }).map(([dependency, version]) => {
+    return `${dependency}@${version}`
+  })
+
+  if (devDependenciesToInstall.length) {
+    console.log()
+    console.log(`Installing template devDependencies using ${command}...`)
+    console.log()
+
+    const proc = spawn.sync(
+      command,
+      args.concat(dev, devDependenciesToInstall),
+      { stdio: 'inherit' }
+    )
+
+    if (proc.status !== 0) {
+      console.error(`\`${command} ${args.join(' ')}\` failed`)
+      process.exit(1)
+    }
   }
 
   // 07.copy crl-template/template to dest
@@ -374,6 +328,10 @@ module.exports.setupFromRemoteTempalte = async opts => {
     console.error(`\`${command} ${args.join(' ')}\` failed`)
     process.exit(1)
   }
+
+  console.log()
+  console.log(`remote setuped`)
+  return Promise.resolve()
 }
 
 module.exports.setupFromLocalTempalte = async opts => {
@@ -424,4 +382,58 @@ module.exports.setupFromLocalTempalte = async opts => {
       await exampleP
     }
   }
+}
+
+module.exports.initGitRepo = async opts => {
+  const { dest } = opts
+
+  const gitignoreExists = fs.existsSync(path.join(dest, '.gitignore'))
+
+  if (gitignoreExists) {
+    const _gitignoreExists = fs.existsSync(path.join(dest, 'gitignore'))
+    if (_gitignoreExists) {
+      // Append if there's already a `.gitignore` file there
+      const data = fs.readFileSync(path.join(dest, 'gitignore'))
+      fs.appendFileSync(path.join(dest, '.gitignore'), data)
+      fs.unlinkSync(path.join(dest, 'gitignore'))
+    }
+  } else {
+    const _gitignoreExists = fs.existsSync(path.join(dest, 'gitignore'))
+    if (_gitignoreExists) {
+      // Rename gitignore after the fact to prevent npm from renaming it to .npmignore
+      // See: https://github.com/npm/npm/issues/1862
+      fs.moveSync(
+        path.join(dest, 'gitignore'),
+        path.join(dest, '.gitignore'),
+        []
+      )
+    } else {
+      const gitIgnorePath = path.join(__dirname, '../', '.gitignore.example')
+      fs.moveSync(gitIgnorePath, path.join(dest, '.gitignore'), [])
+    }
+  }
+
+  const commands = [
+    {
+      cmd: 'git',
+      args: ['init'],
+      cwd: dest
+    },
+    {
+      cmd: 'git',
+      args: ['add', '.'],
+      cwd: dest
+    },
+    {
+      cmd: 'git',
+      args: ['commit', '-m', `init ${pkg.name}@${pkg.version}`],
+      cwd: dest
+    }
+  ]
+
+  return pEachSeries(commands, async ({ cmd, args, cwd }) => {
+    // console.log()
+    // console.log(cmd, args.join(' '))
+    return execa(cmd, args, { cwd })
+  })
 }

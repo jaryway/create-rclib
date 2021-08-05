@@ -21,7 +21,7 @@ module.exports = async () => {
     .option('-a, --author <string>', "author's github handle", defaults.author)
     .option('-l, --license <string>', 'package license', defaults.license)
     .option('-r, --repo <string>', 'package repo path')
-    .option('-g --git', 'generate within git init')
+    // .option('-g --git', 'generate within git init')
     .option('-g --no-git', 'generate without git init')
     .option(
       '-m, --manager <npm|yarn>',

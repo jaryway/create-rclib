@@ -1,6 +1,7 @@
 {
   "name": "root",
   "private": true,
+  "license": "MIT",
   "scripts": {
     "bootstrap": "lerna bootstrap",
     "build": "lerna run build",
@@ -9,5 +10,6 @@
   },
   "devDependencies": {
     "lerna": "^4.0.0"
-  }
+  },
+  "dependencies": {}
 }
