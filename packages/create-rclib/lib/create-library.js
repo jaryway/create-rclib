@@ -409,7 +409,7 @@ module.exports.initGitRepo = async opts => {
       )
     } else {
       const gitIgnorePath = path.join(__dirname, '../', '.gitignore.example')
-      fs.moveSync(gitIgnorePath, path.join(dest, '.gitignore'), [])
+      fs.copySync(gitIgnorePath, path.join(dest, '.gitignore'), [])
     }
   }
 
