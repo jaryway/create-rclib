@@ -336,14 +336,14 @@ module.exports.setupFromRemoteTempalte = async opts => {
     console.log(`Installing template dependencies using ${command}...`)
     console.log()
 
-    const proc1 = spawn.sync(command, args.concat(dependenciesToInstall), {
-      stdio: 'inherit'
-    })
+    // const proc1 = spawn.sync(command, args.concat(dependenciesToInstall), {
+    //   stdio: 'inherit'
+    // })
 
-    if (proc1.status !== 0) {
-      console.error(`\`${command} ${args.join(' ')}\` failed`)
-      process.exit(1)
-    }
+    // if (proc1.status !== 0) {
+    //   console.error(`\`${command} ${args.join(' ')}\` failed`)
+    //   process.exit(1)
+    // }
   }
 
   // 07.copy crl-template/template to dest
