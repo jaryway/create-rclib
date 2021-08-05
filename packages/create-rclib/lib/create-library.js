@@ -222,7 +222,7 @@ module.exports.setupFromRemoteTempalte = async opts => {
     'man',
     'directories',
     'repository',
-    'peerDependencies',
+    // 'peerDependencies',
     'bundledDependencies',
     'optionalDependencies',
     'engineStrict',
