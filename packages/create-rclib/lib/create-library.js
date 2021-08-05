@@ -180,8 +180,8 @@ module.exports.setupFromRemoteTempalte = async opts => {
   console.log()
   console.log(`Installing template package using ${command}...`)
 
-  const temp = path.resolve(__dirname, '../../', templateName)
-  const proc = spawn.sync(command, args.concat(prod, temp), {
+  // const temp = path.resolve(__dirname, '../../', templateName)
+  const proc = spawn.sync(command, args.concat(prod, templateName), {
     stdio: 'inherit'
   })
   if (proc.status !== 0) {
