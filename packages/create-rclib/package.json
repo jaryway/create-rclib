@@ -1,6 +1,6 @@
 {
   "name": "create-rclib",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "CLI for easily bootstrapping modern react libraries",
   "repository": "jaryway/create-rclib",
   "author": "jaryway",
