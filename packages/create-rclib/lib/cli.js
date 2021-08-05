@@ -21,7 +21,7 @@ module.exports = async () => {
     .option('-a, --author <string>', "author's github handle", defaults.author)
     .option('-l, --license <string>', 'package license', defaults.license)
     .option('-r, --repo <string>', 'package repo path')
-    .option('-g, --no-git', 'generate without git init')
+    .option('-g, --no-git', 'generate without git init', '--no-git')
     .option(
       '-m, --manager <npm|yarn>',
       'package manager to use',
@@ -55,7 +55,7 @@ module.exports = async () => {
     example: program.example,
     git: program.git
   }
-
+  // console.log('opts', defaults, opts, program)
   Object.keys(opts).forEach(key => {
     if (!opts[key] && defaults[key]) {
       opts[key] = defaults[key]

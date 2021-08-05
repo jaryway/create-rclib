@@ -40,7 +40,7 @@ module.exports = async info => {
   const rometeTemplate =
     template === 'custom' && templateName.startsWith(templatePattern)
 
-  console.log(rometeTemplate, 'rometeTemplate')
+  // console.log(rometeTemplate, 'rometeTemplate')
 
   await mkdirp(dest)
 
@@ -262,8 +262,10 @@ module.exports.setupFromRemoteTempalte = async opts => {
   }
 
   const templatePackage = templateJson.package || {}
+  const templateScripts = templatePackage.scripts || {}
   const appPackage = require(path.join(appPath, 'package.json'))
   appPackage.dependencies = appPackage.dependencies || {}
+  appPackage.scripts = { ...appPackage.scripts, ...templateScripts }
 
   // Keys to ignore in templatePackage
   const templatePackageBlacklist = [
