@@ -113,7 +113,7 @@ module.exports.initPackageManagerRoot = async opts => {
   ]
 
   return pEachSeries(commands, async ({ cmd, args, cwd }) => {
-    return execa(cmd, args, { cwd })
+    return await execa(cmd, args, { cwd })
   })
 }
 
@@ -130,7 +130,7 @@ module.exports.initPackageManagerExample = async opts => {
   ]
 
   return pEachSeries(commands, async ({ cmd, args, cwd }) => {
-    return execa(cmd, args, { cwd })
+    return await execa(cmd, args, { cwd })
   })
 }
 
@@ -155,7 +155,7 @@ module.exports.initGitRepo = async opts => {
       )
     } else {
       const gitIgnorePath = path.join(dest, '.gitignore')
-      fs.writeFileSync(
+      await fs.writeFileSync(
         gitIgnorePath,
         `
       # See https://help.github.com/ignore-files/ for more about ignoring files.
@@ -200,8 +200,15 @@ module.exports.initGitRepo = async opts => {
   ]
 
   return pEachSeries(commands, async ({ cmd, args, cwd }) => {
-    return execa(cmd, args, { cwd })
+    console.log('commond', cmd, args, cwd)
+    return await execa(cmd, args, { cwd })
   })
+    .then(res => {
+      console.log('res', res)
+    })
+    .catch(ex => {
+      console.error(`Initializing git repo failed`, ex)
+    })
 }
 
 module.exports.setupFromRemoteTempalte = async opts => {

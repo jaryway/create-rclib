@@ -10,7 +10,7 @@ const config = require('./config')
 module.exports = async () => {
   const defaults = {
     name: '',
-    description: 'Made with create-react-library',
+    description: 'Made with create-rclib',
     author: config.get('author'),
     repo: info => `${info.author}/${info.name}`,
     license: config.get('license', 'MIT'),
